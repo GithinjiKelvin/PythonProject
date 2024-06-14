@@ -7,7 +7,7 @@
 ## DESCRIPTION
 The real estate managemant system is a syatem that allows users to create a database known as realestate and has the following tables: apartments, owner, tenant and payment.
 An owner can have many apartments
-one apartment belongs to one owner
+One apartment belongs to one owner
 A tenant can rent multiple apartments
 but one apartment belongs to one tenant
 
