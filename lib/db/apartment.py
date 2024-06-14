@@ -1,21 +1,24 @@
 #lib/db/apartment.py
 from db.__init__ import CURSOR, CONN
 from db.owner import Owner
+from db.tenant import Tenant
 
 class Apartment:
 
     all = {}
 
-    def __init__(self, name, location, owner_id, id = None):
+    def __init__(self, name, location, owner_id, tenant_id, id = None):
         self.id = id
         self.name = name
         self.location = location
         self.owner_id = owner_id
+        self.tenant_id = tenant_id
     
     def __repr__(self):
         return (
             f"<Owner {self.id}: {self.name}, {self.location}, " +
-            f"Owner ID: {self.owner_id}>"
+            f"Owner ID: {self.owner_id}"+
+            f"Tenant ID: {self.tenant_id}>"
         )
     
     @property
@@ -51,6 +54,17 @@ class Apartment:
         else:
             raise ValueError(
                 "owner_id must reference a owner in the database")
+    @property
+    def tenant_id(self):
+        return self._tenant_id
+
+    @tenant_id.setter
+    def tenant_id(self, tenant_id):
+        if type(tenant_id) is int and Tenant.find_by_id(tenant_id):
+            self._tenant_id = tenant_id
+        else:
+            raise ValueError(
+                "Tenant_id must reference a tenant in the database")
 
     
     @classmethod
@@ -62,7 +76,10 @@ class Apartment:
                 name TEXT,
                 location TEXT,
                 owner_id INTEGER,
-                FOREIGN KEY (owner_id) REFERENCES owners(id))
+                tenant_id INTEGER,
+                FOREIGN KEY (owner_id) REFERENCES owners(id),
+                
+                FOREIGN KEY (tenant_id) REFERENCES tenants(id))
                 
             """
         CURSOR.execute(sql)
@@ -80,10 +97,10 @@ class Apartment:
     def save(self):
 
         sql = """
-                INSERT INTO apartments(name, location, owner_id)
-                VALUES (?, ?, ?)
+                INSERT INTO apartments(name, location, owner_id, tenant_id)
+                VALUES (?, ?, ?, ?)
             """
-        CURSOR.execute(sql, (self.name, self.location, self.owner_id))
+        CURSOR.execute(sql, (self.name, self.location, self.owner_id, self.tenant_id))
         CONN.commit()
 
         self.id = CURSOR.lastrowid
@@ -93,10 +110,10 @@ class Apartment:
 
         sql = """
                 UPDATE apartments
-                SET name = ?, location = ?, owner_id = ?
+                SET name = ?, location = ?, owner_id = ?, tenant_id = ?
                 WHERE id = ?
             """
-        CURSOR.execute(sql, (self.name, self.location, self.owner_id, self.id))
+        CURSOR.execute(sql, (self.name, self.location, self.owner_id, self.tenant_id, self.id))
         CONN.commit()
     
     def delete(self):
@@ -111,8 +128,8 @@ class Apartment:
         self.id = None
     
     @classmethod
-    def create(cls, name, location, owner_id):
-        apartment = cls(name, location, owner_id)
+    def create(cls, name, location, owner_id, tenant_id):
+        apartment = cls(name, location, owner_id, tenant_id)
         apartment.save()
         return apartment
     
@@ -123,8 +140,9 @@ class Apartment:
             apartment.name = row[1]
             apartment.location = row[2]
             apartment.owner_id = row[3]
+            apartment.tenant_id = row[4]
         else:
-            apartment = cls(row[1], row[2], row[3])
+            apartment = cls(row[1], row[2], row[3], row[4])
             apartment.id = row[0]
             cls.all[apartment.id] = apartment
         return apartment
