@@ -61,3 +61,57 @@ def delete_apartment():
         print(f'Apartment {id_} deleted')
     else:
         print(f'Apartment {id_} not found')
+
+        # tenants
+def list_tenants():
+    tenants = Tenant.get_all()
+    for tenant in tenants:
+        print(tenant)
+
+def find_tenant_by_name():
+     name = input("Enter the tenant's name: ")
+     tenant = Tenant.find_by_name(name)
+     print(tenant) if tenant else print(
+        f'Tenant {name} not found')
+
+def find_tenant_by_id():
+    tenant_id = input("Enter the tenant id: ")
+    tenant = Tenant.find_by_id(tenant_id)
+    print(tenant) if tenant else print(f'Tenant {tenant_id} not found')
+
+def add_tenant():
+    name = input("Enter the tenant's name: ")
+    age = input("Enter the tenants's age: ")
+    phone_num = input("Enter the tenants's phone_num: ")
+    
+    try:
+        tenant = Tenant.create(name, age, phone_num)
+        print(f'Success: {tenant}')
+    except Exception as exc:
+        print("Error Adding new tenant: ", exc)
+
+def update_tenant():
+    tenant_id = input("Enter the tenant's id: ")
+    if tenant := Tenant.find_by_id(tenant_id):
+        try:
+            name = input("Enter the tenants's new name: ")
+            tenant.name = name
+            age = input("Enter the tenants's new age: ")
+            tenant.age = age
+            phone_num = input("Enter the tenants's new phone number: ")
+            tenant.phone_num = phone_num
+            
+            tenant.update()
+            print(f'Success: {tenant}')
+        except Exception as exc:
+            print("Error updating tenants info: ", exc)
+    else:
+        print(f'Tenant {tenant_id} not found')
+
+def delete_tenant():
+    id_ = input("Enter the tenant's id: ")
+    if tenant := Tenant.find_by_id(id_):
+        tenant.delete()
+        print(f'Tenant {id_} deleted')
+    else:
+        print(f'Tenant {id_} not found')

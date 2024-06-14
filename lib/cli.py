@@ -5,7 +5,14 @@ from helpers import(
     find_apartment_by_id,
     add_apartment,
     update_apartment,
-    delete_apartment
+    delete_apartment,
+    list_tenants,
+    find_tenant_by_name,
+    find_tenant_by_id,
+    add_tenant,
+    update_tenant,
+    delete_tenant
+    
 )
 
 def main():
@@ -26,6 +33,18 @@ def main():
             update_apartment()
         elif choice == "6":
             delete_apartment()
+        elif choice == "7":
+            list_tenants()
+        elif choice == "8":
+            find_tenant_by_name()
+        elif choice == "9":
+            find_tenant_by_id()
+        elif choice == "10":
+            add_tenant()
+        elif choice == "11":
+            update_tenant()
+        elif choice == "12":
+            delete_tenant()
 
 
 def menu():
@@ -37,6 +56,12 @@ def menu():
     print("4. Add new apartment")
     print("5. Update an existing apartment")
     print("6. Delete an existing apartment")
+    print("7. List all the apartments")
+    print("8. Find Tenant by name")
+    print("9. Find Tenant by id")
+    print("10. Add new Tenant")
+    print("11. Update an existing Tenant")
+    print("12. Delete an existing Tenant")
 
 
 
