@@ -127,4 +127,16 @@ class Owner:
         """
         row = CURSOR.execute(sql, (name,)).fetchone()
         return cls.instance_from_db(row) if row else None
+    
+    def apartments(self):
+        from db.apartment import Apartment
+
+        sql = """
+                SELECT * FROM apartments
+                WHERE owner_id = ?
+            """
+        CURSOR.execute(sql, (self.id, ),)
+
+        rows = CURSOR.fetchall()
+        return [Apartment.instance_from_db(row) for row in rows]
 
