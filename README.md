@@ -22,6 +22,7 @@ Install required dependencies
 # Database Setup
 Run the seed.py file in lib folder.
 these will create the tables with some data in the database
+run the cli.py file to interuct with the system
 
 ## TECHNOLOGIES
 Python3
