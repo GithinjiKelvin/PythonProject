@@ -13,7 +13,7 @@ class Tenant:
     
     def __repr__(self):
         return (
-            f"<Owner {self.id}: {self.name}, {self.age}, {self.phone_num}>"
+            f"<Tenant {self.id}: {self.name}, {self.age}, {self.phone_num}>"
         )
     
     @property
@@ -142,4 +142,16 @@ class Tenant:
 
         rows = CURSOR.fetchall()
         return [Apartment.instance_from_db(row) for row in rows]
+    
+    def payments(self):
+        from db.payment import Payment
+
+        sql = """
+                SELECT * FROM payments
+                WHERE tenant_id = ?
+            """
+        CURSOR.execute(sql, (self.id, ),)
+
+        rows = CURSOR.fetchall()
+        return [Payment.instance_from_db(row) for row in rows]
 

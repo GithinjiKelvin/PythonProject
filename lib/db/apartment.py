@@ -16,7 +16,7 @@ class Apartment:
     
     def __repr__(self):
         return (
-            f"<Owner {self.id}: {self.name}, {self.location}, " +
+            f"<Apartment {self.id}: {self.name}, {self.location}, " +
             f"Owner ID: {self.owner_id}"+
             f"Tenant ID: {self.tenant_id}>"
         )

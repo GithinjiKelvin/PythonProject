@@ -4,6 +4,7 @@ from db.__init__ import CONN, CURSOR
 from db.owner import Owner
 from db.apartment import Apartment
 from db.tenant import Tenant
+from db.payment import Payment
 
 import ipdb
 
@@ -14,6 +15,8 @@ def recreatedb():
     Apartment.create_table()
     Tenant.drop_table()
     Tenant.create_table()
+    Payment.drop_table()
+    Payment.create_table()
 
     Owner.create("Kelvin", 25)
     Owner.create("Maggie", 20)
@@ -33,7 +36,16 @@ def recreatedb():
     Apartment.create("Prestige", "Prestige", 3, 1)
     Apartment.create("Naresho", "Kilimani", 3, 2)
     Apartment.create("Fancy", "Westalands", 4, 4)
-    Apartment.create("Dubai", "Roysambu", 4, 5)
+    
+
+    Payment.create("transaction1", 20000, 4)
+    Payment.create("transaction2", 26000, 1)
+    Payment.create("transaction3", 22000, 4)
+    Payment.create("transaction4", 26000, 3)
+    Payment.create("transaction5", 20000, 2)
+    
+
+
 
     
 
